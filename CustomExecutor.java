@@ -1,7 +1,4 @@
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * The CustomExecutor class is an executor that asynchronously computes Task instances.
@@ -45,6 +42,10 @@ public class CustomExecutor {
     }
 
     public void shutdown() {
-        executor.shutdown();
+        while (!queue.isEmpty()) {
+            Task<?> task = queue.poll();
+            executor.execute(task);
+        }
+        ((ExecutorService) executor).shutdown();
     }
 }

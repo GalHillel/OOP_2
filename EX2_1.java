@@ -12,6 +12,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class EX2_1 {
+
+    /**
+     * The createTextFiles method creates n text files, each containing the string "HELLO WORLD".
+     * The method takes in three parameters:
+     * *n is the number of text files to create
+     * *seed is a seed for a random number generator used to create the text files
+     * The method returns an array of strings, each element of which is the contents of one of the text files.
+     */
     public static String[] createTextFiles(int n, int seed, int bound) {
         String[] fileContents = new String[n];
         Random rng = new Random(seed);
@@ -32,6 +40,11 @@ public class EX2_1 {
         return fileContents;
     }
 
+    /**
+     * The getNumOfLines method takes in an array of file names and counts the number of lines in each file,
+     * by reading the file line by line until the end of the file is reached.
+     * The method returns the total number of lines in all the files.
+     */
     public static int getNumOfLines(String[] fileNames) {
         int numLines = 0;
         for (String fileName : fileNames) {
@@ -46,6 +59,13 @@ public class EX2_1 {
         return numLines;
     }
 
+    /**
+     * The getNumOfLinesThreads method works similarly to getNumOfLines,
+     * but it uses multiple threads to count the lines in the files.
+     * The method creates a LineCounter thread for each file, starts the threads, and then waits for them to finish.
+     * The LineCounter class extends the Thread class and overrides the run method to count the lines in a single file.
+     * The method returns the total number of lines in all the files.
+     */
     public int getNumOfLinesThreads(String[] fileNames) throws InterruptedException {
         LineCounter[] counters = new LineCounter[fileNames.length];
         for (int i = 0; i < fileNames.length; i++) {
@@ -84,6 +104,13 @@ public class EX2_1 {
         }
     }
 
+    /**
+     * The getNumOfLinesThreadPool method also uses multiple threads to count the lines in the files,
+     * but it uses a thread pool and the Callable interface to do so.
+     * The method creates a LineCounterPool object for each file and submits it to an executor service (a thread pool).
+     * The LineCounterPool class implements the Callable interface and has a call method that counts the lines in a single file.
+     * The method then waits for the results of the Callable tasks and returns the total number of lines in all the files.
+     */
     public static int getNumOfLinesThreadPool(String[] fileNames)
             throws InterruptedException, ExecutionException {
         ExecutorService executor = Executors.newFixedThreadPool(fileNames.length);
