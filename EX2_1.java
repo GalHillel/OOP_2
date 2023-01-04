@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 
 public class EX2_1 {
 
-    public void main(String[] args) throws ExecutionException, InterruptedException {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         long startTime, endTime;
         int numberOfFiles;
@@ -29,27 +29,45 @@ public class EX2_1 {
         String fileNames[] = createTextFiles(numberOfFiles, 2407, maxNumberOfLines);
         System.out.println("Checking " + numberOfFiles + " files with " + maxNumberOfLines + " maximum lines each:");
 
-        System.out.println("---------------------------------------------------------");
+        // Test getNumOfLines method
+        System.out.println("Testing getNumOfLines method:");
         startTime = System.currentTimeMillis();
         System.out.println("Num of lines in all files: " + getNumOfLines(fileNames));
         endTime = System.currentTimeMillis();
-        System.out.println("Time: " + (endTime - startTime) + " ms");
-        System.out.println("---------------------------------------------------------");
+        System.out.println("Time taken: " + (endTime - startTime) + " ms");
+        System.out.println();
 
+        // Test getNumOfLinesThreads method
+        System.out.println("Testing getNumOfLinesThreads method:");
         startTime = System.currentTimeMillis();
-        System.out.println("Num of lines in all files using threads: " + getNumOfLinesThreads(fileNames));
+        try {
+            System.out.println("Num of lines in all files using threads: " + getNumOfLinesThreads(fileNames));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         endTime = System.currentTimeMillis();
-        System.out.println("Time: " + (endTime - startTime) + " ms");
-        System.out.println("---------------------------------------------------------");
+        System.out.println("Time taken: " + (endTime - startTime) + " ms");
+        System.out.println();
 
+        // Test getNumOfLinesThreadPool method
+        System.out.println("Testing getNumOfLinesThreadPool method:");
         startTime = System.currentTimeMillis();
-        System.out.println("Num of lines in all files using threadPool: " + getNumOfLinesThreadPool(fileNames));
+        try {
+            System.out.println("Num of lines in all files using threadPool: " + getNumOfLinesThreadPool(fileNames));
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         endTime = System.currentTimeMillis();
-        System.out.println("Time: " + (endTime - startTime) + " ms");
-        System.out.println("---------------------------------------------------------");
+        System.out.println("Time taken: " + (endTime - startTime) + " ms");
+        System.out.println();
 
         deleteAllFiles(fileNames);
+
+        scanner.close();
     }
+
 
     /**
      * The createTextFiles method creates n text files, each containing the string "HELLO WORLD".
@@ -59,23 +77,24 @@ public class EX2_1 {
      * The method returns an array of strings, each element of which is the contents of one of the text files.
      */
     public static String[] createTextFiles(int n, int seed, int bound) {
-        String[] fileContents = new String[n];
-        Random rng = new Random(seed);
+        String[] fileNames = new String[n];
+        Random random = new Random(seed);
 
         for (int i = 0; i < n; i++) {
-            // Create a new text file and write "HELLO WORLD" to it
-            File file = new File("file_" + i + ".txt");
-            try (FileWriter writer = new FileWriter(file)) {
-                writer.write("HELLO WORLD");
+            String fileName = "file" + i + 1 + ".txt";
+            fileNames[i] = fileName;
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)))) {
+                int numLines = random.nextInt(bound) + 1;
+                for (int j = 0; j < numLines; j++) {
+                    bw.write("Hello World");
+                    bw.newLine();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            // Store the contents of the file in the fileContents array
-            fileContents[i] = "HELLO WORLD";
         }
 
-        return fileContents;
+        return fileNames;
     }
 
     /**
@@ -104,7 +123,7 @@ public class EX2_1 {
      * The LineCounter class extends the Thread class and overrides the run method to count the lines in a single file.
      * The method returns the total number of lines in all the files.
      */
-    public int getNumOfLinesThreads(String[] fileNames) throws InterruptedException {
+    public static int getNumOfLinesThreads(String[] fileNames) throws InterruptedException {
         LineCounter[] counters = new LineCounter[fileNames.length];
         for (int i = 0; i < fileNames.length; i++) {
             counters[i] = new LineCounter(fileNames[i]);
