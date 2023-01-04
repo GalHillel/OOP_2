@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -12,6 +13,43 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class EX2_1 {
+
+    public void main(String[] args) throws ExecutionException, InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        long startTime, endTime;
+        int numberOfFiles;
+        int maxNumberOfLines;
+
+        System.out.println("Enter number of files to be created: ");
+        numberOfFiles = scanner.nextInt();
+        System.out.println("Enter maximum number of lines in each file: ");
+        maxNumberOfLines = scanner.nextInt();
+
+        System.out.println("Creating files...");
+        String fileNames[] = createTextFiles(numberOfFiles, 2407, maxNumberOfLines);
+        System.out.println("Checking " + numberOfFiles + " files with " + maxNumberOfLines + " maximum lines each:");
+
+        System.out.println("---------------------------------------------------------");
+        startTime = System.currentTimeMillis();
+        System.out.println("Num of lines in all files: " + getNumOfLines(fileNames));
+        endTime = System.currentTimeMillis();
+        System.out.println("Time: " + (endTime - startTime) + " ms");
+        System.out.println("---------------------------------------------------------");
+
+        startTime = System.currentTimeMillis();
+        System.out.println("Num of lines in all files using threads: " + getNumOfLinesThreads(fileNames));
+        endTime = System.currentTimeMillis();
+        System.out.println("Time: " + (endTime - startTime) + " ms");
+        System.out.println("---------------------------------------------------------");
+
+        startTime = System.currentTimeMillis();
+        System.out.println("Num of lines in all files using threadPool: " + getNumOfLinesThreadPool(fileNames));
+        endTime = System.currentTimeMillis();
+        System.out.println("Time: " + (endTime - startTime) + " ms");
+        System.out.println("---------------------------------------------------------");
+
+        deleteAllFiles(fileNames);
+    }
 
     /**
      * The createTextFiles method creates n text files, each containing the string "HELLO WORLD".
@@ -144,6 +182,19 @@ public class EX2_1 {
                 e.printStackTrace();
             }
             return numLines;
+        }
+    }
+
+    /**
+     * This function delete all files
+     * For the main
+     *
+     * @param filesNames
+     */
+    public static void deleteAllFiles(String[] filesNames) {
+        for (String fileName : filesNames) {
+            File file = new File(fileName);
+            file.delete();
         }
     }
 }
