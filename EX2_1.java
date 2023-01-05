@@ -26,7 +26,7 @@ public class EX2_1 {
         maxNumberOfLines = scanner.nextInt();
 
         System.out.println("Creating files...");
-        String fileNames[] = createTextFiles(numberOfFiles, 2407, maxNumberOfLines);
+        String[] fileNames = createTextFiles(numberOfFiles, 2407, maxNumberOfLines);
         System.out.println("Checking " + numberOfFiles + " files with " + maxNumberOfLines + " maximum lines each:");
 
         // Test getNumOfLines method
@@ -54,9 +54,7 @@ public class EX2_1 {
         startTime = System.currentTimeMillis();
         try {
             System.out.println("Num of lines in all files using threadPool: " + getNumOfLinesThreadPool(fileNames));
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
         endTime = System.currentTimeMillis();
@@ -83,7 +81,7 @@ public class EX2_1 {
         for (int i = 0; i < n; i++) {
             String fileName = "file" + i + 1 + ".txt";
             fileNames[i] = fileName;
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fileName)))) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
                 int numLines = random.nextInt(bound) + 1;
                 for (int j = 0; j < numLines; j++) {
                     bw.write("Hello World");
@@ -138,7 +136,7 @@ public class EX2_1 {
     }
 
     static class LineCounter extends Thread {
-        private String fileName;
+        private final String fileName;
         private int numLines;
 
         public LineCounter(String fileName) {
@@ -184,7 +182,7 @@ public class EX2_1 {
     }
 
     static class LineCounterPool implements Callable<Integer> {
-        private String fileName;
+        private final String fileName;
 
         public LineCounterPool(String fileName) {
             this.fileName = fileName;
@@ -207,8 +205,6 @@ public class EX2_1 {
     /**
      * This function delete all files
      * For the main
-     *
-     * @param filesNames
      */
     public static void deleteAllFiles(String[] filesNames) {
         for (String fileName : filesNames) {
