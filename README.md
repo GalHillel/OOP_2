@@ -89,9 +89,18 @@ The tasks type representing its priority:
 * For IO-Bound Tasks, we'll assign: `IO` (Value = 2)
 * For Unknown Tasks, we'll assign: `OTHER` (Value = 3)
 
-#### Task
+#### Task<V>
 
-Implementing the *Interfaces* Comparable
+Implementing the *Interfaces* ***Comparable*** and ***Callable***, A `Task<V>` object represents a task with a TaskType
+and may return a value of some type.<br>
+A `Task<V>` object can be *compared* to other `Task<V>` object by its `TaskType` parameter (`OTHER` if not defined).
+
+#### CustomExecutor
+
+Our Prioritized ThreadPool is an Executor that asynchronously computes `Task<V>` instances.<br>
+`CustomExecutor` maintains the maximum priority of Task instances in the queue at any given time.
+
+After finishing of all tasks submitted to the executor, the `CustomExecutor`will terminate the executor.
 
 ### UML Diagram of Part 2
 
