@@ -55,11 +55,20 @@ the Callable tasks and returns the total number of lines in all the files.
 | 6   | 10,000       | 5,000  | 25,195,925         | 87,420 ms   | 2,291 ms  | 5,863 ms     |
 | 7   | 50,000       | 10,000 | 249,777,821        | 404,677 ms  | 12,281 ms | 103,469 ms   |
 | 8   |              |        |                    |             |           |              |
-| 9   |              |        |                    |             |           |              |
-| 10  |              |        |                    |             |           |              |
 
-## UML Diagram for Part 1
-![your-UML-diagram-name] (//www.plantuml.com/plantuml/png/XP9HI_im5CNVyoak_5ywri7VFGqHcGm5GLHm365CoPgxBNYRbEHMbE5tDsrMrwqJyp16yZldvDnqx5awBdCIR0jW2qlBR7DGsc76sXhXtxGff9Cva3R8dmM2TRonGcZ3w5OoGvX88haal9XTmbO0z24BEqdl76RYIsGalOVhv-7hMJoD_vDU91rAnYb-y8qcz4bmJQ7v2GvFxBHPpnSrl4Q-B_E7rPqswAUR85K-QOW01qdDAIHal2AAdYtYtMhrczMZjNJira5F0RdKfXFI5AzK4rjMmuhrspixLJMA0PWohoFsnguqoVxIXy2fWAf1DwJLgtVmEhVXT8tknocE0RR7sG4GxHhrwW_c_qR3_s6b1KbjqgKbjHX0VDqk7_0A7WqFy1VOfOhZ6b5G9QHA-WsglQBvtZgQlourHgFAdBu1)
+### UML Diagram for Part 1
+
+
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/EX2_1_UML.plantuml)
+
+## Part 2
+
+___
+
+### UML Diagram of Part 2
+
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/Ex2_2_UML.plantuml)
+
 ## Authors
 
 Roey Feingold https://github.com/RF555
