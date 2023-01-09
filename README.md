@@ -43,6 +43,17 @@ LineCounterPool object for each file and submit it to an executor service (a thr
 The **OVERRIDDEN** *call()* method counts the number of line in the file assigned to it, and waits for the results of
 the Callable tasks and returns the total number of lines in all the files.
 
+### How to run
+
+___
+After running `EX2_1.java` you'll be asked to enter first *n* (number of files to create), and then *bound* (max
+number of lines in each file).
+<br>
+After entering each number, press `ENTER`, and the program will start generating the files and running all 3 methods on
+them.
+<br>
+When it finishes all 3 methods the program will delete all the files it created.
+
 ### Results Comparison
 
 |     | Num of files | Bound  | Total num of lines | *Iterative* | *Threads* | *ThreadPool* |
@@ -63,7 +74,23 @@ the Callable tasks and returns the total number of lines in all the files.
 ## Part 2
 
 ___
+We have created a system in which we can use ThreadPool that prioritize the operation it executes (and not only its
+Thread).
 
+### Project Structure
+
+___
+
+#### TaskType (Enum)
+
+The tasks type representing its priority:
+
+* For Computational Tasks, we'll assign: `COMPUTATIONAL` (Value = 1)
+* For IO-Bound Tasks, we'll assign: `IO` (Value = 2)
+* For Unknown Tasks, we'll assign: `OTHER` (Value = 3)
+
+#### Task
+Implementing the *Interfaces* Comparable
 ### UML Diagram of Part 2
 
 ![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/UML/Ex2_2_UML.plantuml)
