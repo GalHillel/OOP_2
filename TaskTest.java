@@ -26,11 +26,11 @@ class TaskTest {
     }
 
     @Test
-    void testGet() throws InterruptedException, ExecutionException, TimeoutException {
+    void testGet() throws InterruptedException, ExecutionException {
         Callable<Integer> task = () -> 1;
         TaskType taskType = TaskType.IO;
         Task<Integer> t = Task.createTask(task, taskType);
-        t.setFuture(new TestFuture<Integer>(1));
+        t.setFuture(new TestFuture<>(1));
         assertEquals(1, (int) t.get());
     }
 
@@ -39,7 +39,7 @@ class TaskTest {
         Callable<Integer> task = () -> 1;
         TaskType taskType = TaskType.IO;
         Task<Integer> t = Task.createTask(task, taskType);
-        t.setFuture(new TestFuture<Integer>(1));
+        t.setFuture(new TestFuture<>(1));
         assertEquals(1, (int) t.get(1, TimeUnit.SECONDS));
     }
 
@@ -56,7 +56,7 @@ class TaskTest {
         Callable<Integer> task = () -> 1;
         TaskType taskType = TaskType.IO;
         Task<Integer> t = Task.createTask(task, taskType);
-        Future<Integer> f = new TestFuture<Integer>(1);
+        Future<Integer> f = new TestFuture<>(1);
         t.setFuture(f);
         assertEquals(f, t.getFuture());
     }
@@ -73,7 +73,7 @@ class TaskTest {
 }
 
 class TestFuture<V> implements Future<V> {
-    private V value;
+    private final V value;
 
     TestFuture(V value) {
         this.value = value;
@@ -95,12 +95,12 @@ class TestFuture<V> implements Future<V> {
     }
 
     @Override
-    public V get() throws InterruptedException, ExecutionException {
+    public V get() {
         return value;
     }
 
     @Override
-    public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
+    public V get(long timeout, TimeUnit unit) {
         return value;
     }
 }
