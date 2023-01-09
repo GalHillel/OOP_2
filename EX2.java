@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class EX2_1 {
+public class EX2 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
