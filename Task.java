@@ -11,10 +11,10 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     private TaskType Type;
 
     /**
-     * Constructor that takes a Callable and a TaskType
+     * Constructor that takes a Callable and a TaskType.
      *
-     * @param task
-     * @param type
+     * @param task Callable Task.
+     * @param type TaskType representing the priority of the task.
      */
     public Task(Callable<V> task, TaskType type) {
         operation = task;
@@ -24,7 +24,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     /**
      * Constructor that takes only a Callable
      *
-     * @param task
+     * @param task Callable Task.
      */
     public Task(Callable<V> task) {
         operation = task;
@@ -32,22 +32,23 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
 
     /**
-     * Factory method that creates and returns a new Task object
+     * Factory method that creates and returns a new Task object.
      *
-     * @param task
-     * @param taskType
-     * @param <V>
-     * @return
+     * @param task     Callable Task.
+     * @param taskType TaskType representing the priority of the task.
+     * @param <V>      Generic type.
+     * @return Result value of type <V>.
      */
     public static <V> Task<V> createTask(Callable<V> task, TaskType taskType) {
         return new Task<V>(task, taskType);
     }
 
     /**
-     * Compares the types of two tasks
+     * Compares the types of two tasks.
      *
      * @param t1 the object to be compared.
-     * @return
+     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater
+     * than the specified object.
      */
     @Override
     public int compareTo(Task t1) {
@@ -55,7 +56,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
 
     /**
-     * Returns the result of the task when it is executed with a timeout
+     * Returns the result of the task when it is executed with a timeout.
      *
      * @param num
      * @param timeUnit
@@ -76,7 +77,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      * @throws ExecutionException
      */
     public V get() throws InterruptedException, ExecutionException {
-        return (V) future.get();
+        return future.get();
     }
 
     /**
