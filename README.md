@@ -90,7 +90,9 @@ The tasks type representing its priority:
 * For Unknown Tasks, we'll assign: `OTHER` (Value = 3)
 
 #### Task
+
 Implementing the *Interfaces* Comparable
+
 ### UML Diagram of Part 2
 
 ![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/UML/Ex2_2_UML.plantuml)
