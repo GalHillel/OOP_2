@@ -7,42 +7,31 @@
 '!theme reddress-darkblue
 '!theme reddress-darkgreen
 '!theme reddress-darkorange
-!theme reddress-darkred
+'!theme reddress-darkred
 '!theme reddress-lightblue
 '!theme reddress-lightgreen
 '!theme reddress-lightorange
 '!theme reddress-lightred
 '!theme toy
-top to bottom direction
-skinparam linetype ortho
+'top to bottom direction
+skinparam  linetype ortho
 
-interface Callable<V>  {
-  + call(): V
-}
+
 interface Comparable<T>  {
   + compareTo(T): int
 }
+
 class CustomExecutor {
-  + CustomExecutor(): 
+  + CustomExecutor()
   + submit(Task<V>): Task<V>
   - submitTask(Task<?>): void
   + gracefullyTerminate(): void
   + submit(Callable<T>, TaskType): Task<T>
    currentMax: String
 }
-class Task<V> {
-  + Task(Callable<V>, TaskType): 
-  + Task(Callable<V>): 
-  + get(): V
-  + compareTo(Task): int
-  + call(): V
-  + createTask(Callable<V>, TaskType): Task<V>
-  + get(long, TimeUnit): V
-   Type: TaskType
-   future: Future<V>
-}
+
 enum TaskType {
-  - TaskType(int): 
+  - TaskType(int)
   + values(): TaskType[]
   + valueOf(String): TaskType
   - validatePriority(int): boolean
@@ -51,9 +40,27 @@ enum TaskType {
    priorityValue: int
 }
 
-Callable            ^-[#008200,dashed]-  Task
-Task            *-[#595959,plain]->  Callable
-Task            -[#008200,dashed]-^  Comparable     
-Task            *-[#595959,plain]->  TaskType
-TaskType        -[#008200,dashed]-^  Comparable     
+interface Callable<V>  {
+  + call(): V
+}
+
+class Task<V> {
+  + Task(Callable<V>, TaskType)
+  + Task(Callable<V>)
+  - future: Future<V>
+  - Type: TaskType
+  + get(): V
+  + compareTo(Task): int
+  + call(): V
+  + createTask(Callable<V>, TaskType): Task<V>
+  + get(long, TimeUnit): V
+   Type: TaskType
+   future: Future<V>
+}
+
+Callable    ^-[#009900,dashed]-  Task
+Callable    ^-[#595959,plain]-*   Task
+Comparable  ^-[#009900,dashed]-  Task
+TaskType    ^-[#595959,plain]-*  Task
+Comparable  ^-[#009900,dashed]-  TaskType
 @enduml
