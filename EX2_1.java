@@ -69,10 +69,11 @@ public class EX2_1 {
 
     /**
      * The createTextFiles method creates n text files, each containing the string "HELLO WORLD".
-     * The method takes in three parameters:
-     * *n is the number of text files to create
-     * *seed is a seed for a random number generator used to create the text files
-     * The method returns an array of strings, each element of which is the contents of one of the text files.
+     *
+     * @param n     Number of text files to create.
+     * @param seed  Seed for a random number generator used to create the text files.
+     * @param bound The upper bound (exclusive). Must be positive.
+     * @return Array of strings, each element of which is the contents of one of the text files.
      */
     public static String[] createTextFiles(int n, int seed, int bound) {
         String[] fileNames = new String[n];
