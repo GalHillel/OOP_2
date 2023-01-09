@@ -1,14 +1,21 @@
 import java.util.concurrent.*;
 
 public class Task<V> implements Comparable<Task<V>>, Callable<V> {
+
     // The Future object representing the result of the task
     private Future<V> future;
     // The operation that the task will execute
     private final Callable<V> operation;
-    // The type of the task
-    private final TaskType Type;
 
-    // Constructor that takes a Callable and a TaskType
+    // The type of the task
+    private TaskType Type;
+
+    /**
+     * Constructor that takes a Callable and a TaskType
+     *
+     * @param task
+     * @param type
+     */
     public Task(Callable<V> task, TaskType type) {
         operation = task;
         Type = type;
@@ -29,11 +36,11 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      *
      * @param task
      * @param taskType
-     * @param <T>
+     * @param <V>
      * @return
      */
-    public static <T> Task<T> createTask(Callable<T> task, TaskType taskType) {
-        return new Task<T>(task, taskType);
+    public static <V> Task<V> createTask(Callable<V> task, TaskType taskType) {
+        return new Task<V>(task, taskType);
     }
 
     /**
@@ -98,5 +105,23 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      */
     public TaskType getType() {
         return Type;
+    }
+
+    /**
+     * Setter
+     *
+     * @param type
+     */
+    public void setType(TaskType type) {
+        Type = type;
+    }
+
+    /**
+     * Getter
+     *
+     * @return
+     */
+    public Future<V> getFuture() {
+        return future;
     }
 }
