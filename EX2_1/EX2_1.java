@@ -1,3 +1,5 @@
+package EX2_1;
+
 import java.io.*;
 import java.util.Random;
 import java.io.BufferedReader;
