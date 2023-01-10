@@ -1,3 +1,5 @@
+package EX2_2;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.Callable;
@@ -10,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CustomExecutorTest {
     @Test
     public void testSubmitTask() throws ExecutionException, InterruptedException {
-        // Create a new CustomExecutor
+        // Create a new EX2_2.CustomExecutor
         CustomExecutor executor = new CustomExecutor();
 
         // Create a Callable task that returns a string
@@ -25,7 +27,7 @@ public class CustomExecutorTest {
 
     @Test
     public void testGetCurrentMax() {
-        // Create a new CustomExecutor
+        // Create a new EX2_2.CustomExecutor
         CustomExecutor executor = new CustomExecutor();
 
         // Create a Callable task that returns a string
@@ -33,16 +35,16 @@ public class CustomExecutorTest {
 
         assertEquals("There is no task", executor.getCurrentMax());
         Task<String> future3 = executor.submit(task, TaskType.OTHER);
-        assertEquals("Unknown Task", executor.getCurrentMax());
+        assertEquals("Unknown EX2_2.Task", executor.getCurrentMax());
         Task<String> future2 = executor.submit(task, TaskType.IO);
-        assertEquals("IO-Bound Task", executor.getCurrentMax());
+        assertEquals("IO-Bound EX2_2.Task", executor.getCurrentMax());
         Task<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
-        assertEquals("Computational Task", executor.getCurrentMax());
+        assertEquals("Computational EX2_2.Task", executor.getCurrentMax());
     }
 
     @Test
     public void testGracefullyTerminate() throws InterruptedException, ExecutionException {
-        // Create a new CustomExecutor
+        // Create a new EX2_2.CustomExecutor
         CustomExecutor executor = new CustomExecutor();
 
         // Create a Callable task that returns a string

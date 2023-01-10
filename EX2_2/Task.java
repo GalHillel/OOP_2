@@ -1,3 +1,5 @@
+package EX2_2;
+
 import java.util.concurrent.*;
 
 public class Task<V> implements Comparable<Task<V>>, Callable<V> {
@@ -11,10 +13,10 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     private TaskType Type;
 
     /**
-     * Constructor that takes a Callable and a TaskType.
+     * Constructor that takes a Callable and a EX2_2.TaskType.
      *
-     * @param task Callable Task.
-     * @param type TaskType representing the priority of the task.
+     * @param task Callable EX2_2.Task.
+     * @param type EX2_2.TaskType representing the priority of the task.
      */
     public Task(Callable<V> task, TaskType type) {
         operation = task;
@@ -24,7 +26,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     /**
      * Constructor that takes only a Callable
      *
-     * @param task Callable Task.
+     * @param task Callable EX2_2.Task.
      */
     public Task(Callable<V> task) {
         operation = task;
@@ -32,10 +34,10 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
 
     /**
-     * Factory method that creates and returns a new Task object.
+     * Factory method that creates and returns a new EX2_2.Task object.
      *
-     * @param task     Callable Task.
-     * @param taskType TaskType representing the priority of the task.
+     * @param task     Callable EX2_2.Task.
+     * @param taskType EX2_2.TaskType representing the priority of the task.
      * @param <V>      Generic type.
      * @return Result value of type <V>.
      */
@@ -81,7 +83,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
     }
 
     /**
-     * Executes the operation that was passed to the Task constructor
+     * Executes the operation that was passed to the EX2_2.Task constructor
      *
      * @return
      * @throws Exception

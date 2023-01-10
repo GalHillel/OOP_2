@@ -1,3 +1,5 @@
+package EX2_2;
+
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
@@ -14,14 +16,14 @@ public class CustomExecutor {
      */
     public CustomExecutor() {
         int processors = Runtime.getRuntime().availableProcessors();
-        // A priority queue to store the tasks based on their priority (TaskType)
+        // A priority queue to store the tasks based on their priority (EX2_2.TaskType)
         PriorityBlockingQueue<Runnable> priorities = new PriorityBlockingQueue<>();
         Executor = new ThreadPoolExecutor(processors / 2, processors - 1,
                 300, TimeUnit.MILLISECONDS, priorities);
     }
 
     /**
-     * Submit a task with a given priority (TaskType)*
+     * Submit a task with a given priority (EX2_2.TaskType)*
      */
     public <V> Task<V> submit(Task<V> task) {
         submitTask(task);
@@ -30,7 +32,7 @@ public class CustomExecutor {
     }
 
     /**
-     * Create a new Task object with the given Callable and TaskType, and then submit it
+     * Create a new EX2_2.Task object with the given Callable and EX2_2.TaskType, and then submit it
      */
     public <T> Task<T> submit(Callable<T> operation, TaskType type) {
         final Task<T> task = Task.createTask(operation, type);
@@ -48,7 +50,7 @@ public class CustomExecutor {
     }
 
     /**
-     * Get the maximum priority (TaskType) of the tasks currently in the queue
+     * Get the maximum priority (EX2_2.TaskType) of the tasks currently in the queue
      */
     public String getCurrentMax() {
         if (arr.contains(TaskType.COMPUTATIONAL))
