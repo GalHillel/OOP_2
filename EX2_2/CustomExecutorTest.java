@@ -35,11 +35,11 @@ public class CustomExecutorTest {
 
         assertEquals("There is no task", executor.getCurrentMax());
         Task<String> future3 = executor.submit(task, TaskType.OTHER);
-        assertEquals("Unknown EX2_2.Task", executor.getCurrentMax());
+        assertEquals("Unknown Task", executor.getCurrentMax());
         Task<String> future2 = executor.submit(task, TaskType.IO);
-        assertEquals("IO-Bound EX2_2.Task", executor.getCurrentMax());
+        assertEquals("IO-Bound Task", executor.getCurrentMax());
         Task<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
-        assertEquals("Computational EX2_2.Task", executor.getCurrentMax());
+        assertEquals("Computational Task", executor.getCurrentMax());
     }
 
     @Test
