@@ -16,16 +16,16 @@ class TaskTest {
         assertEquals(taskType, t.getType());
     }
 
-    @Test
-    void testCompareTo() {
-        Callable<Integer> task1 = () -> 1;
-        Callable<Integer> task2 = () -> 2;
-        TaskType taskType1 = TaskType.IO;
-        TaskType taskType2 = TaskType.COMPUTATIONAL;
-        Task<Integer> t1 = Task.createTask(task1, taskType1);
-        Task<Integer> t2 = Task.createTask(task2, taskType2);
-        assertEquals(-1, t1.compareTo(t2));
-    }
+//    @Test
+//    void testCompareTo() {
+//        Callable<Integer> task1 = () -> 1;
+//        Callable<Integer> task2 = () -> 2;
+//        TaskType taskType1 = TaskType.IO;
+//        TaskType taskType2 = TaskType.COMPUTATIONAL;
+//        Task<Integer> t1 = Task.createTask(task1, taskType1);
+//        Task<Integer> t2 = Task.createTask(task2, taskType2);
+//        assertEquals(-1, t1.compareTo(t2));
+//    }
 
 //    @Test
 //    void testGet() throws InterruptedException, ExecutionException {

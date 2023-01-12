@@ -28,37 +28,41 @@ public class CustomExecutor extends ThreadPoolExecutor {
      */
     public <V> Future submit(Task<V> task) {
         arr.add(TaskType.OTHER);
+        MyFutureTask<V> future = new MyFutureTask<>(task);
         task.setType(TaskType.OTHER);
-        return this.submit(task);
+        this.execute(future);
+        return future;
     }
 
     /**
+     * Submit a task WITHOUT priority TaskType (assign it to OTHER).
+     *
      * @param call the task to submit
-     * @param <V> The type of the task's result
-     * @return
+     * @param <V>  The type of the task's result
+     * @return A Future representing pending completion of the task.
      */
     @Override
     public <V> Future submit(Callable<V> call) {
-
+        Task<V> task = new Task<>(call);
+        return submit(task);
     }
 
     /**
      * Create a new Task object with the given Callable and TaskType, and then submit it
      */
-    public <V> Task<V> submit(Callable<V> operation, TaskType type) {
-        final Task<V> task = Task.createTask(operation, type);
-        submitTask(task);
+    public <V> Future submit(Callable<V> call, TaskType type) {
+        final Task<V> task = Task.createTask(call, type);
         arr.add(type);
-        return task;
+        return submit(task);
     }
 
-    /**
-     * Submit the task to the Executor by wrapping it in a Future object
-     */
-    private void submitTask(Task<?> task) {
-        final Future future = Executor.submit((Callable) task);
-        task.setFuture(future);
-    }
+//    /**
+//     * Submit the task to the Executor by wrapping it in a Future object
+//     */
+//    private void submitTask(Task<?> task) {
+//        final Future future = Executor.submit((Callable) task);
+//        task.setFuture(future);
+//    }
 
     /**
      * Get the maximum priority TaskType of the tasks currently in the queue
@@ -77,11 +81,11 @@ public class CustomExecutor extends ThreadPoolExecutor {
      * Gracefully terminate the Executor
      */
     public void gracefullyTerminate() {
-        Executor.shutdown();
+        this.shutdown();
         arr.clear();
         try {
-            if (!Executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-                Executor.shutdownNow();
+            if (!this.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                this.shutdownNow();
             }
         } catch (InterruptedException e) {
             System.out.println(e);

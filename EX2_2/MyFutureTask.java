@@ -7,13 +7,11 @@ public class MyFutureTask<V> extends FutureTask<V> implements Comparable<MyFutur
     private Task<V> task;
 
 
-    public MyFutureTask(Callable<V> callable) {
-        super(callable);
+    public MyFutureTask(Task<V> task) {
+        super(task);
+        this.task=task;
     }
 
-    public MyFutureTask(Runnable runnable, V result) {
-        super(runnable, result);
-    }
 
     @Override
     public int compareTo(MyFutureTask<V> t1) {
