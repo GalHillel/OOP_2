@@ -2,10 +2,7 @@ package EX2_2;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +16,7 @@ public class CustomExecutorTest {
         Callable<String> task = () -> "Hello, World!";
 
         // Submit the task for execution
-        Task<String> future = executor.submit(task, TaskType.COMPUTATIONAL);
+        Future<String> future = executor.submit(task, TaskType.COMPUTATIONAL);
 
         // Check that the task completed successfully
         assertEquals("Hello, World!", future.get());
@@ -34,11 +31,11 @@ public class CustomExecutorTest {
         Callable<String> task = () -> "Hello, World!";
 
         assertEquals("There is no task", executor.getCurrentMax());
-        Task<String> future3 = executor.submit(task, TaskType.OTHER);
+        Future<String> future3 = executor.submit(task, TaskType.OTHER);
         assertEquals("Unknown Task", executor.getCurrentMax());
-        Task<String> future2 = executor.submit(task, TaskType.IO);
+        Future<String> future2 = executor.submit(task, TaskType.IO);
         assertEquals("IO-Bound Task", executor.getCurrentMax());
-        Task<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
+        Future<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
         assertEquals("Computational Task", executor.getCurrentMax());
     }
 
@@ -53,7 +50,7 @@ public class CustomExecutorTest {
             return "Hello, World!";
         };
 
-        Task<String> future = executor.submit(task, TaskType.COMPUTATIONAL);
+        Future<String> future = executor.submit(task, TaskType.COMPUTATIONAL);
 
         executor.gracefullyTerminate();
 
@@ -63,4 +60,21 @@ public class CustomExecutorTest {
             // Expected exception
         }
     }
+
+    @Test
+    public void test() {
+        CustomExecutor customExecutor = new CustomExecutor();
+        var task = Task.createTask(() -> {
+            int sum = 0;
+            for (int i = 1; i <= 10; i++) {
+                sum += i;
+            }
+            return sum;
+        }, TaskType.COMPUTATIONAL);
+        for (int i = 0; i < 100; i++) {
+            var sumTask = customExecutor.submit(task);
+        }
+    }
+
+
 }

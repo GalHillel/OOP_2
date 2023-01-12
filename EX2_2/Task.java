@@ -2,15 +2,13 @@ package EX2_2;
 
 import java.util.concurrent.*;
 
-public class Task<V> implements Comparable<Task<V>>, Callable<V> {
+public class Task<V> implements Comparable<Task<V>> {
 
-    // The Future object representing the result of the task
-    private Future<V> future;
     // The operation that the task will execute
-    private final Callable<V> operation;
+    private final Callable<V> call;
 
     // The type of the task
-    private TaskType Type;
+    private TaskType type;
 
     /**
      * Constructor that takes a Callable and a EX2_2.TaskType.
@@ -19,8 +17,9 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      * @param type EX2_2.TaskType representing the priority of the task.
      */
     public Task(Callable<V> task, TaskType type) {
-        operation = task;
-        Type = type;
+        super(task);
+        this.call = task;
+        this.type = type;
     }
 
     /**
@@ -29,8 +28,9 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      * @param task Callable EX2_2.Task.
      */
     public Task(Callable<V> task) {
-        operation = task;
-        Type = TaskType.OTHER;
+        super(task);
+        this.call = task;
+        this.type = TaskType.OTHER;
     }
 
     /**
@@ -42,7 +42,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      * @return Result value of type <V>.
      */
     public static <V> Task<V> createTask(Callable<V> task, TaskType taskType) {
-        return new Task<V>(task, taskType);
+        return new Task<>(task, taskType);
     }
 
     /**
@@ -54,32 +54,7 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      */
     @Override
     public int compareTo(Task t1) {
-        return t1.Type.compareTo(Type);
-    }
-
-    /**
-     * Returns the result of the task when it is executed with a timeout.
-     *
-     * @param num
-     * @param timeUnit
-     * @return
-     * @throws InterruptedException
-     * @throws ExecutionException
-     * @throws TimeoutException
-     */
-    public V get(long num, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
-        return (V) future.get(num, timeUnit);
-    }
-
-    /**
-     * Returns the result of the task when it is executed without a timeout
-     *
-     * @return
-     * @throws InterruptedException
-     * @throws ExecutionException
-     */
-    public V get() throws InterruptedException, ExecutionException {
-        return future.get();
+        return t1.type.compareTo(type);
     }
 
     /**
@@ -89,42 +64,78 @@ public class Task<V> implements Comparable<Task<V>>, Callable<V> {
      * @throws Exception
      */
     public V call() throws Exception {
-        return this.operation.call();
+        return this.call.call();
     }
 
-    /**
-     * Sets the Future object representing the result of the task
-     *
-     * @param future
-     */
-    public void setFuture(Future<V> future) {
-        this.future = future;
-    }
-
-    /**
-     * Returns the type of the task
-     *
-     * @return
-     */
-    public TaskType getType() {
-        return Type;
-    }
-
-    /**
-     * Setter
-     *
-     * @param type
-     */
     public void setType(TaskType type) {
-        Type = type;
+        this.type = type;
     }
 
-    /**
-     * Getter
-     *
-     * @return
-     */
-    public Future<V> getFuture() {
-        return future;
+    public TaskType getType() {
+        return type;
     }
+
+
+    //
+//    /**
+//     * Returns the result of the task when it is executed with a timeout.
+//     *
+//     * @param num
+//     * @param timeUnit
+//     * @return
+//     * @throws InterruptedException
+//     * @throws ExecutionException
+//     * @throws TimeoutException
+//     */
+//    public V get(long num, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
+//        return (V) future.get(num, timeUnit);
+//    }
+//
+//    /**
+//     * Returns the result of the task when it is executed without a timeout
+//     *
+//     * @return
+//     * @throws InterruptedException
+//     * @throws ExecutionException
+//     */
+//    public V get() throws InterruptedException, ExecutionException {
+//        return future.get();
+//    }
+//
+//
+//    /**
+//     * Sets the Future object representing the result of the task
+//     *
+//     * @param future
+//     */
+//    public void setFuture(Future<V> future) {
+//        this.future = future;
+//    }
+//
+//    /**
+//     * Returns the type of the task
+//     *
+//     * @return
+//     */
+//    public TaskType getType() {
+//        return type;
+//    }
+//
+//    /**
+//     * Setter
+//     *
+//     * @param type
+//     */
+//    public void setType(TaskType type) {
+//        this.type = type;
+//    }
+//
+//    /**
+//     * Getter
+//     *
+//     * @return
+//     */
+//    public Future<V> getFuture() {
+//        return future;
+//    }
 }

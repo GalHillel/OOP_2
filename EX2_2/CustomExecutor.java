@@ -3,39 +3,50 @@ package EX2_2;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
-public class CustomExecutor {
+public class CustomExecutor extends ThreadPoolExecutor {
     // The ExecutorService that will execute the tasks
-    private final ExecutorService Executor;
     private final ArrayList<Object> arr = new ArrayList<>();
+    private static final int processors = Runtime.getRuntime().availableProcessors();
 
     /**
      * The constructor:
-     * * Get the number of available processors
-     * * Initialize the Executor with a thread pool of size [processors / 2, processors - 1]
-     * * The queue size is set to 300, and the threads will wait for 300 milliseconds before timing out
+     * Get the number of available processors.
+     * Initialize the Executor with a thread pool of size [processors / 2, processors - 1].
+     * The queue size is set to 300, and the threads will wait for 300 milliseconds before timing out.
      */
     public CustomExecutor() {
-        int processors = Runtime.getRuntime().availableProcessors();
-        // A priority queue to store the tasks based on their priority (EX2_2.TaskType)
-        PriorityBlockingQueue<Runnable> priorities = new PriorityBlockingQueue<>();
-        Executor = new ThreadPoolExecutor(processors / 2, processors - 1,
-                300, TimeUnit.MILLISECONDS, priorities);
+        super(processors / 2, processors - 1,
+                300, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
     }
 
     /**
-     * Submit a task with a given priority (EX2_2.TaskType)*
+     * Submit a task WITHOUT priority TaskType (assign it to OTHER).
+     *
+     * @param task A Task to submit.
+     * @param <V>  The type of the task's result.
+     * @return A Future representing pending completion of the task.
      */
-    public <V> Task<V> submit(Task<V> task) {
-        submitTask(task);
+    public <V> Future submit(Task<V> task) {
         arr.add(TaskType.OTHER);
-        return task;
+        task.setType(TaskType.OTHER);
+        return this.submit(task);
     }
 
     /**
-     * Create a new EX2_2.Task object with the given Callable and EX2_2.TaskType, and then submit it
+     * @param call the task to submit
+     * @param <V> The type of the task's result
+     * @return
      */
-    public <T> Task<T> submit(Callable<T> operation, TaskType type) {
-        final Task<T> task = Task.createTask(operation, type);
+    @Override
+    public <V> Future submit(Callable<V> call) {
+
+    }
+
+    /**
+     * Create a new Task object with the given Callable and TaskType, and then submit it
+     */
+    public <V> Task<V> submit(Callable<V> operation, TaskType type) {
+        final Task<V> task = Task.createTask(operation, type);
         submitTask(task);
         arr.add(type);
         return task;
@@ -45,12 +56,12 @@ public class CustomExecutor {
      * Submit the task to the Executor by wrapping it in a Future object
      */
     private void submitTask(Task<?> task) {
-        final Future future = Executor.submit(task);
+        final Future future = Executor.submit((Callable) task);
         task.setFuture(future);
     }
 
     /**
-     * Get the maximum priority (EX2_2.TaskType) of the tasks currently in the queue
+     * Get the maximum priority TaskType of the tasks currently in the queue
      */
     public String getCurrentMax() {
         if (arr.contains(TaskType.COMPUTATIONAL))
