@@ -44,17 +44,6 @@ public class Task<V> implements Callable<V> {
         return new Task<>(task, taskType);
     }
 
-//    /**
-//     * Compares the types of two tasks.
-//     *
-//     * @param t1 the object to be compared.
-//     * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater
-//     * than the specified object.
-//     */
-//    @Override
-//    public int compareTo(Task t1) {
-//        return t1.type.compareTo(type);
-//    }
 
     /**
      * Executes the operation that was passed to the EX2_2.Task constructor
@@ -75,66 +64,4 @@ public class Task<V> implements Callable<V> {
     }
 
 
-    //
-//    /**
-//     * Returns the result of the task when it is executed with a timeout.
-//     *
-//     * @param num
-//     * @param timeUnit
-//     * @return
-//     * @throws InterruptedException
-//     * @throws ExecutionException
-//     * @throws TimeoutException
-//     */
-//    public V get(long num, TimeUnit timeUnit) throws InterruptedException, ExecutionException, TimeoutException {
-//        return (V) future.get(num, timeUnit);
-//    }
-//
-//    /**
-//     * Returns the result of the task when it is executed without a timeout
-//     *
-//     * @return
-//     * @throws InterruptedException
-//     * @throws ExecutionException
-//     */
-//    public V get() throws InterruptedException, ExecutionException {
-//        return future.get();
-//    }
-//
-//
-//    /**
-//     * Sets the Future object representing the result of the task
-//     *
-//     * @param future
-//     */
-//    public void setFuture(Future<V> future) {
-//        this.future = future;
-//    }
-//
-//    /**
-//     * Returns the type of the task
-//     *
-//     * @return
-//     */
-//    public TaskType getType() {
-//        return type;
-//    }
-//
-//    /**
-//     * Setter
-//     *
-//     * @param type
-//     */
-//    public void setType(TaskType type) {
-//        this.type = type;
-//    }
-//
-//    /**
-//     * Getter
-//     *
-//     * @return
-//     */
-//    public Future<V> getFuture() {
-//        return future;
-//    }
 }
