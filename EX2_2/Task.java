@@ -2,7 +2,7 @@ package EX2_2;
 
 import java.util.concurrent.*;
 
-public class Task<V> implements Callable<V> {
+public class Task<V> implements Callable<V>, Comparable<Task<V>> {
 
     // The operation that the task will execute
     private final Callable<V> call;
@@ -52,6 +52,7 @@ public class Task<V> implements Callable<V> {
      * @throws Exception
      */
     public V call() throws Exception {
+        CustomExecutor.pq.poll();
         return this.call.call();
     }
 
@@ -64,4 +65,8 @@ public class Task<V> implements Callable<V> {
     }
 
 
+    @Override
+    public int compareTo(Task<V> task) {
+        return task.getType().compareTo(this.getType());
+    }
 }

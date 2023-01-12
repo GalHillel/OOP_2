@@ -4,12 +4,16 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 public class MyFutureTask<V> extends FutureTask<V> implements Comparable<MyFutureTask<V>> {
-    private Task<V> task;
+    private final Task<V> task;
 
 
     public MyFutureTask(Task<V> task) {
         super(task);
-        this.task=task;
+        this.task = task;
+    }
+
+    public int getPriority() {
+        return this.task.getType().getPriorityValue();
     }
 
 

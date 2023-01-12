@@ -1,12 +1,14 @@
 package EX2_2;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.concurrent.*;
 
 public class CustomExecutor extends ThreadPoolExecutor {
     // The ExecutorService that will execute the tasks
     private final ArrayList<Object> arr = new ArrayList<>();
     private static final int processors = Runtime.getRuntime().availableProcessors();
+    public static PriorityQueue<Task> pq = new PriorityQueue<>();
 
     /**
      * The constructor:
@@ -53,16 +55,9 @@ public class CustomExecutor extends ThreadPoolExecutor {
     public <V> Future submit(Callable<V> call, TaskType type) {
         final Task<V> task = Task.createTask(call, type);
         arr.add(type);
+        pq.add(task);
         return submit(task);
     }
-
-//    /**
-//     * Submit the task to the Executor by wrapping it in a Future object
-//     */
-//    private void submitTask(Task<?> task) {
-//        final Future future = Executor.submit((Callable) task);
-//        task.setFuture(future);
-//    }
 
     /**
      * Get the maximum priority TaskType of the tasks currently in the queue
@@ -75,6 +70,18 @@ public class CustomExecutor extends ThreadPoolExecutor {
         else if (arr.contains(TaskType.COMPUTATIONAL))
             return TaskType.COMPUTATIONAL.getPriorityValue();
         return -1;
+//        int max_priority = 0;
+//        for (Runnable r : this.getQueue()) {
+//            if (r instanceof MyFutureTask &&
+//                    ((MyFutureTask<?>) r).getPriority() > max_priority)
+//                max_priority = ((MyFutureTask<?>) r).getPriority();
+//
+//        }
+//        return max_priority;
+//        if (this.pq.isEmpty())
+//            return -1;
+//        else
+//            return this.pq.peek().getType().getPriorityValue();
     }
 
     /**
@@ -83,6 +90,7 @@ public class CustomExecutor extends ThreadPoolExecutor {
     public void gracefullyTerminate() {
         this.shutdown();
         arr.clear();
+        pq.clear();
         try {
             if (!this.awaitTermination(800, TimeUnit.MILLISECONDS)) {
                 this.shutdownNow();
