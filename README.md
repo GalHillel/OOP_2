@@ -91,9 +91,14 @@ The tasks type representing its priority:
 
 #### Task<V>
 
-Implementing the *Interfaces* ***Comparable*** and ***Callable***, A `Task<V>` object represents a task with a TaskType
+Implementing the *Interfaces* ***Comparable*** and ***Callable***, a `Task<V>` object represents a task with a TaskType
 and may return a value of some type.<br>
 A `Task<V>` object can be *compared* to other `Task<V>` object by its `TaskType` parameter (`OTHER` if not defined).
+
+#### MyFutureTask
+
+Extends ***FutureTask*** and implements ***Comparable***, a `MyFutureTask` object wraps a `Task` so it can enter
+the `PriorityBlockingQueue`.
 
 #### CustomExecutor
 
