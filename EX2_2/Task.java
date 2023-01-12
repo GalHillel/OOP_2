@@ -13,7 +13,7 @@ public class Task<V> implements Callable<V> {
     /**
      * Constructor that takes only a Callable
      *
-     * @param task Callable EX2_2.Task.
+     * @param task Callable Task.
      */
     public Task(Callable<V> task) {
         this.call = task;
@@ -21,10 +21,10 @@ public class Task<V> implements Callable<V> {
     }
 
     /**
-     * Constructor that takes a Callable and a EX2_2.TaskType.
+     * Constructor that takes a Callable and a TaskType.
      *
-     * @param task Callable EX2_2.Task.
-     * @param type EX2_2.TaskType representing the priority of the task.
+     * @param task Callable Task.
+     * @param type TaskType representing the priority of the task.
      */
     public Task(Callable<V> task, TaskType type) {
         this.call = task;
@@ -33,10 +33,10 @@ public class Task<V> implements Callable<V> {
 
 
     /**
-     * Factory method that creates and returns a new EX2_2.Task object.
+     * Factory method that creates and returns a new Task object.
      *
-     * @param task     Callable EX2_2.Task.
-     * @param taskType EX2_2.TaskType representing the priority of the task.
+     * @param task     Callable Task.
+     * @param taskType TaskType representing the priority of the task.
      * @param <V>      Generic type.
      * @return Result value of type <V>.
      */
@@ -46,7 +46,7 @@ public class Task<V> implements Callable<V> {
 
 
     /**
-     * Executes the operation that was passed to the EX2_2.Task constructor
+     * Executes the operation that was passed to the Task constructor
      *
      * @return
      * @throws Exception
