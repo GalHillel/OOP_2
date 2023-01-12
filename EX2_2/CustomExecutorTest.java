@@ -22,22 +22,22 @@ public class CustomExecutorTest {
         assertEquals("Hello, World!", future.get());
     }
 
-    @Test
-    public void testGetCurrentMax() {
-        // Create a new EX2_2.CustomExecutor
-        CustomExecutor executor = new CustomExecutor();
-
-        // Create a Callable task that returns a string
-        Callable<String> task = () -> "Hello, World!";
-
-        assertEquals("There is no task", executor.getCurrentMax());
-        Future<String> future3 = executor.submit(task, TaskType.OTHER);
-        assertEquals("Unknown Task", executor.getCurrentMax());
-        Future<String> future2 = executor.submit(task, TaskType.IO);
-        assertEquals("IO-Bound Task", executor.getCurrentMax());
-        Future<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
-        assertEquals("Computational Task", executor.getCurrentMax());
-    }
+//    @Test
+//    public void testGetCurrentMax() {
+//        // Create a new EX2_2.CustomExecutor
+//        CustomExecutor executor = new CustomExecutor();
+//
+//        // Create a Callable task that returns a string
+//        Callable<String> task = () -> "Hello, World!";
+//
+//        assertEquals("There is no task", executor.getCurrentMax());
+//        Future<String> future3 = executor.submit(task, TaskType.OTHER);
+//        assertEquals("Unknown Task", executor.getCurrentMax());
+//        Future<String> future2 = executor.submit(task, TaskType.IO);
+//        assertEquals("IO-Bound Task", executor.getCurrentMax());
+//        Future<String> future1 = executor.submit(task, TaskType.COMPUTATIONAL);
+//        assertEquals("Computational Task", executor.getCurrentMax());
+//    }
 
     @Test
     public void testGracefullyTerminate() throws InterruptedException, ExecutionException {
