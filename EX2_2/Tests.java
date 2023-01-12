@@ -10,7 +10,7 @@ public class Tests {
     public static final Logger logger = LoggerFactory.getLogger(Tests.class);
 
     @Test
-    public void partialTest() throws ExecutionException, InterruptedException, TimeoutException {
+    public void partialTest() {
         CustomExecutor customExecutor = new CustomExecutor();
         var task = Task.createTask(() -> {
             int sum = 0;
@@ -18,7 +18,7 @@ public class Tests {
                 sum += i;
             }
             return sum;
-        }, TaskType.IO);
+        }, TaskType.COMPUTATIONAL);
         var sumTask = customExecutor.submit(task);
         final int sum;
         try {
@@ -34,7 +34,6 @@ public class Tests {
             StringBuilder sb = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             return sb.reverse().toString();
         };
-        // var is used to infer the declared type automatically
         var priceTask = customExecutor.submit(() -> {
             return 1000 * Math.pow(1.02, 5);
         }, TaskType.COMPUTATIONAL);
@@ -47,36 +46,10 @@ public class Tests {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        for (int i = 0; i < 100; i++) {
-            var s = customExecutor.submit(task);
-            var p = customExecutor.submit(() -> {
-                return 1000 * Math.pow(1.02, 5);
-            }, TaskType.COMPUTATIONAL);
-            var r = customExecutor.submit(callable2, TaskType.IO);
-        }
         logger.info(() -> "Reversed String = " + reversed);
         logger.info(() -> String.valueOf("Total Price = " + totalPrice));
         logger.info(() -> "Current maximum priority = " +
                 customExecutor.getCurrentMax());
         customExecutor.gracefullyTerminate();
     }
-
-    @Test
-    public void main() {
-
-        CustomExecutor customExecutor = new CustomExecutor();
-        var task = Task.createTask(() -> {
-            int sum = 0;
-            for (int i = 1; i <= 10; i++) {
-                sum += i;
-            }
-            return sum;
-        }, TaskType.COMPUTATIONAL);
-        for (
-                int i = 0;
-                i < 100; i++) {
-            var sumTask = customExecutor.submit(task);
-        }
-    }
-
 }

@@ -67,14 +67,14 @@ public class CustomExecutor extends ThreadPoolExecutor {
     /**
      * Get the maximum priority TaskType of the tasks currently in the queue
      */
-    public String getCurrentMax() {
-        if (arr.contains(TaskType.COMPUTATIONAL))
-            return TaskType.COMPUTATIONAL.toString();
+    public int getCurrentMax() {
+        if (arr.contains(TaskType.OTHER))
+            return TaskType.OTHER.getPriorityValue();
         else if (arr.contains(TaskType.IO))
-            return TaskType.IO.toString();
-        else if (arr.contains(TaskType.OTHER))
-            return TaskType.OTHER.toString();
-        return "There is no task";
+            return TaskType.IO.getPriorityValue();
+        else if (arr.contains(TaskType.COMPUTATIONAL))
+            return TaskType.COMPUTATIONAL.getPriorityValue();
+        return -1;
     }
 
     /**
