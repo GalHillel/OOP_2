@@ -109,7 +109,7 @@ After finishing of all tasks submitted to the executor, the `CustomExecutor`will
 
 ### UML Diagram of Part 2
 
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/UML/Ex2_2_UML.plantuml)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/GalHillel/OOP_2/main/UML/EX2_2_diagram.plantuml)
 
 ## Authors
 
