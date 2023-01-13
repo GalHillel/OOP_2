@@ -22,7 +22,7 @@ public class Tests {
         var sumTask = customExecutor.submit(task);
         final int sum;
         try {
-            sum = sumTask.get(1, TimeUnit.MILLISECONDS);
+            sum = (int) sumTask.get(1, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
@@ -34,7 +34,6 @@ public class Tests {
             StringBuilder sb = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             return sb.reverse().toString();
         };
-        // var is used to infer the declared type automatically
         var priceTask = customExecutor.submit(() -> {
             return 1000 * Math.pow(1.02, 5);
         }, TaskType.COMPUTATIONAL);
@@ -42,8 +41,8 @@ public class Tests {
         final Double totalPrice;
         final String reversed;
         try {
-            totalPrice = priceTask.get();
-            reversed = reverseTask.get();
+            totalPrice = (Double) priceTask.get();
+            reversed = (String) reverseTask.get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -52,7 +51,5 @@ public class Tests {
         logger.info(() -> "Current maximum priority = " +
                 customExecutor.getCurrentMax());
         customExecutor.gracefullyTerminate();
-        logger.info(() -> "Current maximum priority = " +
-                customExecutor.getCurrentMax());
     }
 }

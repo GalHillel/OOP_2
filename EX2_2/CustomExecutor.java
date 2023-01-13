@@ -1,76 +1,99 @@
 package EX2_2;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.concurrent.*;
 
-public class CustomExecutor {
+public class CustomExecutor extends ThreadPoolExecutor {
     // The ExecutorService that will execute the tasks
-    private final ExecutorService Executor;
     private final ArrayList<Object> arr = new ArrayList<>();
+    private static final int processors = Runtime.getRuntime().availableProcessors();
+    public static PriorityQueue<Task> pq = new PriorityQueue<>();
 
     /**
      * The constructor:
-     * * Get the number of available processors
-     * * Initialize the Executor with a thread pool of size [processors / 2, processors - 1]
-     * * The queue size is set to 300, and the threads will wait for 300 milliseconds before timing out
+     * Get the number of available processors.
+     * Initialize the Executor with a thread pool of size [processors / 2, processors - 1].
+     * The queue size is set to 300, and the threads will wait for 300 milliseconds before timing out.
      */
     public CustomExecutor() {
-        int processors = Runtime.getRuntime().availableProcessors();
-        // A priority queue to store the tasks based on their priority (EX2_2.TaskType)
-        PriorityBlockingQueue<Runnable> priorities = new PriorityBlockingQueue<>();
-        Executor = new ThreadPoolExecutor(processors / 2, processors - 1,
-                300, TimeUnit.MILLISECONDS, priorities);
+        super(processors / 2, processors - 1,
+                300, TimeUnit.MILLISECONDS, new PriorityBlockingQueue<>());
     }
 
     /**
-     * Submit a task with a given priority (EX2_2.TaskType)*
+     * Submit a task WITHOUT priority TaskType (assign it to OTHER).
+     *
+     * @param task A Task to submit.
+     * @param <V>  The type of the task's result.
+     * @return A Future representing pending completion of the task.
      */
-    public <V> Task<V> submit(Task<V> task) {
-        submitTask(task);
+    public <V> Future submit(Task<V> task) {
         arr.add(TaskType.OTHER);
-        return task;
+        MyFutureTask<V> future = new MyFutureTask<>(task);
+        task.setType(TaskType.OTHER);
+        this.execute(future);
+        return future;
     }
 
     /**
-     * Create a new EX2_2.Task object with the given Callable and EX2_2.TaskType, and then submit it
+     * Submit a task WITHOUT priority TaskType (assign it to OTHER).
+     *
+     * @param call the task to submit
+     * @param <V>  The type of the task's result
+     * @return A Future representing pending completion of the task.
      */
-    public <T> Task<T> submit(Callable<T> operation, TaskType type) {
-        final Task<T> task = Task.createTask(operation, type);
-        submitTask(task);
+    @Override
+    public <V> Future submit(Callable<V> call) {
+        Task<V> task = new Task<>(call);
+        return submit(task);
+    }
+
+    /**
+     * Create a new Task object with the given Callable and TaskType, and then submit it
+     */
+    public <V> Future submit(Callable<V> call, TaskType type) {
+        final Task<V> task = Task.createTask(call, type);
         arr.add(type);
-        return task;
+        pq.add(task);
+        return submit(task);
     }
 
     /**
-     * Submit the task to the Executor by wrapping it in a Future object
+     * Get the maximum priority TaskType of the tasks currently in the queue
      */
-    private void submitTask(Task<?> task) {
-        final Future future = Executor.submit(task);
-        task.setFuture(future);
-    }
-
-    /**
-     * Get the maximum priority (EX2_2.TaskType) of the tasks currently in the queue
-     */
-    public String getCurrentMax() {
-        if (arr.contains(TaskType.COMPUTATIONAL))
-            return TaskType.COMPUTATIONAL.toString();
+    public int getCurrentMax() {
+        if (arr.contains(TaskType.OTHER))
+            return TaskType.OTHER.getPriorityValue();
         else if (arr.contains(TaskType.IO))
-            return TaskType.IO.toString();
-        else if (arr.contains(TaskType.OTHER))
-            return TaskType.OTHER.toString();
-        return "There is no task";
+            return TaskType.IO.getPriorityValue();
+        else if (arr.contains(TaskType.COMPUTATIONAL))
+            return TaskType.COMPUTATIONAL.getPriorityValue();
+        return -1;
+//        int max_priority = 0;
+//        for (Runnable r : this.getQueue()) {
+//            if (r instanceof MyFutureTask &&
+//                    ((MyFutureTask<?>) r).getPriority() > max_priority)
+//                max_priority = ((MyFutureTask<?>) r).getPriority();
+//
+//        }
+//        return max_priority;
+//        if (this.pq.isEmpty())
+//            return -1;
+//        else
+//            return this.pq.peek().getType().getPriorityValue();
     }
 
     /**
      * Gracefully terminate the Executor
      */
     public void gracefullyTerminate() {
-        Executor.shutdown();
+        this.shutdown();
         arr.clear();
+        pq.clear();
         try {
-            if (!Executor.awaitTermination(800, TimeUnit.MILLISECONDS)) {
-                Executor.shutdownNow();
+            if (!this.awaitTermination(800, TimeUnit.MILLISECONDS)) {
+                this.shutdownNow();
             }
         } catch (InterruptedException e) {
             System.out.println(e);
